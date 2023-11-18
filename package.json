@@ -1,0 +1,45 @@
+{
+  "name": "cowhist19-qa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "target": "es6",
+  "module": "CommonJS",
+  "engines": {
+    "node": "^18.18.2"
+  },
+  "scripts": {
+    "cucumber": "cucumber-js --require cucumber.js --require step-definitions/**/*.js -f json:cucumber_report.json",
+    "cucumber-report": "cucumber-js --require cucumber.js --require step-definitions/**/*.js -f json:cucumber_report.json --publish",
+    "playwright": "playwright test",
+    "playwright-ui": "playwright test --ui",
+    "prettify": "npx prettier . --write"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "bcryptjs-react": "^2.4.6",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.3.1",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
+    "npx": "^10.2.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-i18next": "^13.3.1",
+    "react-router": "^6.17.0",
+    "react-router-dom": "^6.17.0",
+    "react-scripts": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.1",
+    "@playwright/test": "^1.39.0",
+    "@testing-library/react": "^14.0.0",
+    "@types/node": "^20.9.0",
+    "prettier": "3.0.3"
+  }
+}

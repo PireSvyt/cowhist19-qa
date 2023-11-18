@@ -1,0 +1,12 @@
+node_modules
+coverage
+build
+yarn.lock
+yarn-error.log
+.vscode
+.env
+test-results
+playwright-report
+blob-report
+playwright/.cache
+cucumber_report.json
