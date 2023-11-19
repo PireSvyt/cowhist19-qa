@@ -9,7 +9,8 @@
     "node": "^18.18.2"
   },
   "scripts": {
-    "setup": "node scripts/setupdatabase.js",
+    "setup-envfile": "node scripts/setupenvfile.js",
+    "setup-database": "node scripts/setupdatabase.js",
     "cucumber": "cucumber-js --require cucumber.js",
     "cucumber-report": "cucumber-js --require cucumber.js --publish",
     "prettify": "npx prettier . --write"

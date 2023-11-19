@@ -37,6 +37,9 @@ class TableModal {
   async clickSave() {
     await global.page.click("data-testid=modal-table-button-proceed");
   }
+  async clickInvite() {
+    await global.page.click("data-testid=modal-table-button-invite");
+  }
 
   async assertModalIsVisible() {
     const element = global.page.locator("data-testid=modal-table");
