@@ -1,17 +1,34 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
 const { SignupModal } = require("../page-objects/signup-modal.js");
-const { random_id } = require("../utils/toolkit.js");
+const { random_id } = require("../../utils/toolkit.js");
+const env = require("../../.env.json")
 
 const signupModal = new SignupModal();
 
+Object.keys(env).forEach(k => {
+  signupModal[k] = env[k]
+})
+
 Given("I opened the sign up modal", async () => {
   await signupModal.navigateToSignupModal();
+  await signupModal.assertModalIsVisible();
 });
 Given(
-  "I set the sign up modal login field with an erroneous email",
+  "I filled the sign up modal login field with an erroneous email",
   async () => {
-    await signupModal.typeLogin(random_id() + "@email");
+    await signupModal.fillIn({ login: random_id() + "@email" });
   },
+);
+Given(
+  "I filled in the sign up modal with missmatching passwords",
+  async () => {
+    await signupModal.fillIn({
+      pseudo: random_id(),
+      login: random_id() + '@email.com',
+      password: random_id(),
+      passwordrepeat: random_id(),
+    })
+  }
 );
 
 When("I click the cancel call to action of the sign up modal", async () => {

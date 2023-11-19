@@ -3,6 +3,18 @@ function random_id(length = 8) {
   var temp_id = Math.random().toString(16).substr(2, length);
   return temp_id;
 }
+function random_string(length = 24) {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
 
 function validateEmail(email) {
   /*
@@ -17,4 +29,4 @@ function validateEmail(email) {
   );
 }
 
-module.exports = { validateEmail, random_id };
+module.exports = { validateEmail, random_id, random_string };

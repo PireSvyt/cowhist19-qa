@@ -5,6 +5,7 @@ yarn.lock
 yarn-error.log
 .vscode
 .env
+.env.json
 test-results
 playwright-report
 blob-report

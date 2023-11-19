@@ -9,22 +9,23 @@
     "node": "^18.18.2"
   },
   "scripts": {
-    "cucumber": "cucumber-js --require cucumber.js --require step-definitions/**/*.js -f json:cucumber_report.json",
-    "cucumber-report": "cucumber-js --require cucumber.js --require step-definitions/**/*.js -f json:cucumber_report.json --publish",
-    "playwright": "playwright test",
-    "playwright-ui": "playwright test --ui",
+    "setup": "node scripts/setupdatabase.js",
+    "cucumber": "cucumber-js --require cucumber.js",
+    "cucumber-report": "cucumber-js --require cucumber.js --publish",
     "prettify": "npx prettier . --write"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.6.0",
+    "axios": "^1.6.2",
+    "bcrypt": "^5.1.1",
     "bcryptjs-react": "^2.4.6",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.3.1",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
+    "mongodb": "^6.3.0",
     "npx": "^10.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
