@@ -7,7 +7,6 @@ yarn-error.log
 .env
 .env.json
 test-results
-playwright-report
 blob-report
-playwright/.cache
 cucumber_report.json
+scripts/map.outputs/*

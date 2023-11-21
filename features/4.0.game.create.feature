@@ -1,7 +1,8 @@
 Feature: Game create
 
     Background:
-        Given I opened the game modal
+        Given I opened to one of my tables
+        And I opened the game modal
 
     Scenario: I can close the modal
         When I click the cancel call to action of the game modal

@@ -10,25 +10,15 @@ class TableModal {
   }
 
   async fillIn(inputs) {
-    if (inputs.pseudo !== undefined) {
+    if (inputs.name !== undefined) {
       await global.page
-        .locator("data-testid=modal-table-input-pseudo >> input")
-        .fill(inputs.pseudo);
+        .locator("data-testid=modal-table-input-name >> input")
+        .fill(inputs.name);
     }
-    if (inputs.login !== undefined) {
+    if (inputs.guests !== undefined) {
       await global.page
-        .locator("data-testid=modal-table-input-pseudo >> input")
-        .fill(inputs.login);
-    }
-    if (inputs.password !== undefined) {
-      await global.page
-        .locator("data-testid=modal-table-input-password >> input")
-        .fill(inputs.password);
-    }
-    if (inputs.passwordrepeat !== undefined) {
-      await global.page
-        .locator("data-testid=modal-table-input-passwordrepeat >> input")
-        .fill(inputs.passwordrepeat);
+        .locator("data-testid=modal-table-input-guests >> input")
+        .fill(inputs.guests);
     }
   }
   async clickCancel() {

@@ -1,5 +1,5 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
-const { AppBarMenu } = require("../page-objects/appbarmenu-component.js")
+const { AppBarMenu } = require("../page-objects/menu-component.js")
 const env = require("../../.env.json")
 
 const appBarMenu = new AppBarMenu();
