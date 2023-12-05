@@ -24,6 +24,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import serviceProceed from "../../services/_miscelaneous/serviceProceed.js";
 // Reducers
 import appStore from "../../store/appStore.js";
+import { serviceGameCreate } from "../../services/game/game.services.js";
 
 export default function GameModal() {
   if (process.env.REACT_APP_DEBUG === "TRUE") {
@@ -114,6 +115,9 @@ export default function GameModal() {
         },
       });
     },
+    save: () => {
+      serviceGameCreate()
+    }
   };
 
   return (
@@ -296,7 +300,7 @@ export default function GameModal() {
           <LoadingButton
             data-testid="modal-game-button-save"
             variant="contained"
-            onClick={() => serviceProceed("gameSave")}
+            onClick={() => changes.save()}
             disabled={select.disabled}
             loading={select.loading}
           >

@@ -1,48 +1,48 @@
 Feature: Sign in
 
     Background:
-        Given I opened the landing page
-        And I opened the sign in modal
+        Given I open landing page
+        And I click sign in button of landing page
 
 
     Scenario: I can sign in
-        And I filled in the sign in modal with activated account creadentials
-        When I click the sign in call to action of the sign in modal
-        Then the sign in modal should be closed
-        And I should be connected
+        And I fill sign in modal with "activated account creadentials"
+        When I click proceed button of sign in modal
+        Then sign in modal should be hidden
+        And home page should be visible
 
     Scenario: I can close the modal
-        When I click the cancel call to action of the sign in modal
-        Then the sign in modal should be closed
+        When I click close button of sign in modal
+        Then sign in modal should be hidden
         
 
     Scenario: I can't sign in without creadentials
-        When I click the sign in call to action of the sign in modal
-        Then the sign in modal should be open
-        And the sign in modal login field should be in error
-        And the sign in modal password field should be in error
+        When I click proceed button of sign in modal
+        Then sign in modal should be visible
+        And login should be in error in sign in modal
+        And password should be in error in sign in modal
 
     Scenario: I can't sign in without erroneous creadentials
-        And I filled the sign in modal login field with an erroneous email
-        When I click the sign in call to action of the sign in modal
-        Then the sign in modal should be open
-        And the sign in modal login field should be in error
+        And I fill sign in modal with "erroneous email"
+        When I click proceed button of sign in modal
+        Then sign in modal should be visible
+        And login should be in error in sign in modal
 
     Scenario: I can't sign in without unknown creadentials
-        And I filled the sign in modal with random credentials
-        When I click the sign in call to action of the sign in modal
-        Then the sign in modal should be open
-        And the sign in modal login field should be in error
-        And the sign in modal password field should not be in error
+        And I fill sign in modal with "random credentials"
+        When I click proceed button of sign in modal
+        Then sign in modal should be visible
+        And login should be in error in sign in modal
+        And password should not be in error in sign in modal
 
-    Scenario: I can't sign in without invalid password
-        And I filled in the sign in modal with activated account creadentials but invalid password
-        When I click the sign in call to action of the sign in modal
-        Then the sign in modal should be open
-        And the sign in modal password field should not be in error
+    Scenario: I can't sign in with invalid password
+        And I fill sign in modal with "activated account creadentials but invalid password"
+        When I click proceed button of sign in modal
+        Then sign in modal should be visible
+        And password should be in error in sign in modal
 
     Scenario: I can't sign in with an inactive account
-        And I filled in the sign in modal with inactive account creadentials
-        When I click the sign in call to action of the sign in modal
-        Then the sign in modal should be open
-        And the sign in modal send activation call to action should be visible
+        And I fill sign in modal with "inactive account creadentials"
+        When I click proceed button of sign in modal
+        Then sign in modal should be visible
+        And inactive account should be visible
