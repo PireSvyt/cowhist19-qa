@@ -8,23 +8,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Typography,
-  Slider,
-  Select,
-  Autocomplete,
-  TextField,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Chip,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
+// Components
+import ContractCard from "../components/ContractCard.js";
 // Services
-import serviceProceed from "../../services/_miscelaneous/serviceProceed.js";
+import { serviceGameCreate } from "../../services/game/game.services.js";
+import { random_id } from "../../services/_miscelaneous/toolkit.js";
 // Reducers
 import appStore from "../../store/appStore.js";
-import { serviceGameCreate } from "../../services/game/game.services.js";
 
 export default function GameModal() {
   if (process.env.REACT_APP_DEBUG === "TRUE") {
@@ -38,85 +31,24 @@ export default function GameModal() {
 
   // Selects
   const select = {
-    open: useSelector((state) => state.sliceGameModal.open),
-    id: useSelector((state) => state.sliceGameModal.id),
-    inputs: useSelector((state) => state.sliceGameModal.inputs),
-    errors: useSelector((state) => state.sliceGameModal.errors),
-    requirements: useSelector((state) => state.sliceGameModal.requirements),
-    disabled: useSelector((state) => state.sliceGameModal.disabled),
-    loading: useSelector((state) => state.sliceGameModal.loading),
-    players: useSelector((state) => state.sliceTableDetails.players),
-    contracts: useSelector((state) => state.sliceTableDetails.contracts),
+    open: useSelector((state) => state.gameModalSlice.open),
+    gameId: useSelector((state) => state.gameModalSlice.id),
+    gameContracts: useSelector((state) => state.gameModalSlice.contracts),
+    disabled: useSelector((state) => state.gameModalSlice.disabled),
+    loading: useSelector((state) => state.gameModalSlice.loading),
+    players: useSelector((state) => state.tableSlice.players),
+    contracts: useSelector((state) => state.tableSlice.contracts),
   };
+  let c = -1
 
   // Changes
   const changes = {
-    contract: (e) => {
-      let contract = select.contracts.filter(
-        (c) => c.key === e.target.value,
-      )[0];
-      appStore.dispatch({
-        type: "sliceGameModal/change",
-        payload: {
-          inputs: { contract: e.target.value },
-          errors: { contract: false },
-          requirements: {
-            attack: "(" + contract.attack + ")",
-            defense: "(" + contract.defense + ")",
-            outcome: "", //"(max. +" + (13 - contract.folds) + ")",
-          },
-        },
-      });
-    },
-    attack: (e) => {
-      let newPlayers = select.inputs.players.filter(
-        (player) => player.role === "defense",
-      );
-      e.target.value.forEach((attackant) => {
-        newPlayers.push({
-          _id: attackant._id,
-          pseudo: attackant.pseudo,
-          role: "attack",
-        });
-      });
-      appStore.dispatch({
-        type: "sliceGameModal/change",
-        payload: {
-          inputs: { players: newPlayers },
-          errors: { attack: false },
-        },
-      });
-    },
-    defense: (e) => {
-      let newPlayers = select.inputs.players.filter(
-        (player) => player.role === "attack",
-      );
-      e.target.value.forEach((defenser) => {
-        newPlayers.push({
-          _id: defenser._id,
-          pseudo: defenser.pseudo,
-          role: "defense",
-        });
-      });
-      appStore.dispatch({
-        type: "sliceGameModal/change",
-        payload: {
-          inputs: { players: newPlayers },
-          errors: { defense: false },
-        },
-      });
-    },
-    outcome: (e) => {
-      appStore.dispatch({
-        type: "sliceGameModal/change",
-        payload: {
-          inputs: { outcome: e.target.value },
-          errors: { outcome: false },
-        },
-      });
-    },
     save: () => {
+      console.log('GameModal.changes.save gameContracts', select.gameContracts)
       serviceGameCreate()
+    },
+    close: () => {
+      appStore.dispatch({ type: "gameModalSlice/close" });
     }
   };
 
@@ -125,9 +57,7 @@ export default function GameModal() {
       <Dialog
         data-testid="modal-game"
         open={select.open}
-        onClose={() => {
-          appStore.dispatch({ type: "sliceGameModal/close" });
-        }}
+        onClose={changes.close}
         fullWidth={true}
       >
         <DialogTitle>{t("game.label.title")}</DialogTitle>
@@ -137,162 +67,26 @@ export default function GameModal() {
           }}
         >
           <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-            }}
+            data-testid="modal-game-list-contracts"
           >
-            <FormControl variant="standard">
-              <InputLabel>{t("game.input.contract")}</InputLabel>
-              <Select
-                name="contract"
-                value={select.inputs.contract}
-                onChange={changes.contract}
-                error={select.errors.contract}
-                data-testid="modal-game-input-contract"
-              >
-                {select.contracts.map((contract) => (
-                  <MenuItem key={contract.key} value={contract.key}>
-                    {t("game.label.contract." + contract.key)}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl variant="standard">
-              <Autocomplete
-                data-testid="modal-game-input-attack"
-                name="attack"
-                multiple
-                disableClearable
-                inputValue=""
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    label={
-                      t("game.input.attack") + " " + select.requirements.attack
-                    }
-                    error={select.errors.attack}
-                  />
-                )}
-                options={select.players.filter(
-                  (player) =>
-                    !select.inputs.players.find(
-                      (actualPlayer) => actualPlayer._id === player._id,
-                    ),
-                )}
-                getOptionLabel={(option) => option.pseudo}
-                defaultValue={[]}
-                value={select.inputs.players.filter(
-                  (player) => player.role === "attack",
-                )}
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip
-                      variant="outlined"
-                      label={option.pseudo}
-                      {...getTagProps({ index })}
-                    />
-                  ))
-                }
-                onChange={(event, newValue) => {
-                  event.target = {
-                    name: "attack",
-                    value: newValue,
-                  };
-                  changes.attack(event, newValue);
-                }}
-              >
-                {select.players.map((player) => (
-                  <MenuItem key={player._id} value={player._id}>
-                    {player.pseudo}
-                  </MenuItem>
-                ))}
-              </Autocomplete>
-            </FormControl>
-
-            <FormControl variant="standard">
-              <Autocomplete
-                data-testid="modal-game-input-defense"
-                name="defense"
-                multiple
-                disableClearable
-                inputValue=""
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    label={
-                      t("game.input.defense") +
-                      " " +
-                      select.requirements.defense
-                    }
-                    error={select.errors.defense}
-                  />
-                )}
-                options={select.players.filter(
-                  (player) =>
-                    !select.inputs.players.find(
-                      (actualPlayer) => actualPlayer._id === player._id,
-                    ),
-                )}
-                getOptionLabel={(option) => option.pseudo}
-                defaultValue={[]}
-                value={select.inputs.players.filter(
-                  (player) => player.role === "defense",
-                )}
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip
-                      variant="outlined"
-                      label={option.pseudo}
-                      {...getTagProps({ index })}
-                    />
-                  ))
-                }
-                onChange={(event, newValue) => {
-                  event.target = {
-                    name: "attack",
-                    value: newValue,
-                  };
-                  changes.defense(event, newValue);
-                }}
-              >
-                {select.players.map((player) => (
-                  <MenuItem key={player._id} value={player._id}>
-                    {player.pseudo}
-                  </MenuItem>
-                ))}
-              </Autocomplete>
-            </FormControl>
-
-            <Typography variant="caption" gutterBottom>
-              {t("game.input.outcome") + " " + select.requirements.outcome}
-            </Typography>
-            <Slider
-              data-testid="modal-game-input-outcome"
-              name="outcome"
-              defaultValue={0}
-              value={select.inputs.outcome || 0}
-              onChange={changes.outcome}
-              step={1}
-              marks
-              min={-8}
-              max={8}
-              valueLabelDisplay="on"
-              sx={{ mt: 4 }}
-              color={select.errors.outcome ? "error" : "primary"}
-            />
+            {select.gameContracts.map((contract) => { 
+              c += 1
+              return(
+                <ContractCard 
+                  key={random_id()} 
+                  index={c} 
+                  contract={contract}
+                  players={select.players} 
+                  contracts={select.contracts}
+                />
+              )}
+            )}
           </Box>
         </DialogContent>
 
         <DialogActions>
           <Button
-            onClick={() => {
-              appStore.dispatch({ type: "sliceGameModal/close" });
-            }}
+            onClick={changes.close}
             data-testid="modal-game-button-cancel"
           >
             {t("generic.button.close")}
@@ -300,7 +94,7 @@ export default function GameModal() {
           <LoadingButton
             data-testid="modal-game-button-save"
             variant="contained"
-            onClick={() => changes.save()}
+            onClick={changes.save}
             disabled={select.disabled}
             loading={select.loading}
           >

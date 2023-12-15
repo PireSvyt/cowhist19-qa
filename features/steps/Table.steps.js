@@ -59,6 +59,12 @@ Then("history tab should be hidden", async () => {
 When("I click to home button of table page", async () => {
 	await table.clickTohome()
 })
+When("I click to analytics tab button of table page", async () => {
+	await table.clickToanalyticstab()
+})
+When("I click to history tab button of table page", async () => {
+	await table.clickTohistorytab()
+})
 When("I click new game button of table page", async () => {
 	await table.clickNewgame()
 })

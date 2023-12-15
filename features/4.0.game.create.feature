@@ -18,3 +18,13 @@ Feature: Game create
         Given I fill game modal with "valid game inputs"
         When I click save button of game modal
         Then game modal should be hidden
+
+    Scenario: I can't save without contract
+
+    Scenario: I can't save without the number of attackants
+
+    Scenario: I can't save without the number of defenders
+
+    Scenario: I can't save with an invalid outcome
+
+    

@@ -24,12 +24,11 @@ import AddIcon from "@mui/icons-material/Add.js";
 import InviteModal from "./InviteModal.js";
 import PlayerCard from "../components/PlayerCard.js";
 // Services
-import serviceTableDelete from "../../services/OLD/serviceTableDelete.js";
+import { serviceTableCreate, serviceTableSave, serviceTableDelete } from "../../services/table/table.services.js";
 // Shared
 import ConfirmModal from "./ConfirmModal.js";
 // Reducers
 import appStore from "../../store/appStore.js";
-import { serviceTableCreate, serviceTableSave } from "../../services/table/table.services.js";
 
 export default function TableModal() {
   if (process.env.REACT_APP_DEBUG === "TRUE") {
@@ -37,6 +36,8 @@ export default function TableModal() {
   }
   // i18n
   const { t } = useTranslation();
+
+  let c = -1
 
   // Selects
   const select = {
@@ -85,14 +86,16 @@ export default function TableModal() {
       console.log("TableModal.invite");
       appStore.dispatch({type: "inviteModalSlice/open"})
     },
-    create: () => {
-      console.log("TableModal.create");
-      serviceTableCreate()
-    },
     save: () => {
-      console.log("TableModal.save");
-      serviceTableSave()
+      if (select.tableid === "") {
+        serviceTableCreate()
+      } else {
+        serviceTableSave()
+      }
     },
+    close: () => {
+      appStore.dispatch({ type: "tableModalSlice/close" });
+    }
   };
 
   // Constants
@@ -123,7 +126,7 @@ export default function TableModal() {
         });
         break;
       default:
-        console.error("HistoryCard.confirmCallback unmatched " + choice);
+        console.error("tableModal.confirmCallback unmatched " + choice);
     }
   }
 
@@ -131,9 +134,7 @@ export default function TableModal() {
     <Box>
       <Dialog
         open={select.open}
-        onClose={() => {
-          appStore.dispatch({ type: "tableModalSlice/close" });
-        }}
+        onClose={changes.close}
         fullWidth={true}
         data-testid="modal-table"
       >
@@ -191,16 +192,14 @@ export default function TableModal() {
               </Typography>
               <IconButton
                 sx={{ p: 2 }}
-                onClick={() => {
-                  changes.invite()
-                }}
+                onClick={changes.invite}
                 data-testid="modal-table-button-invite player"
               >
                 <AddIcon />
               </IconButton>
             </Stack>
 
-            {select.inputs.players.length === 0 && select.id === "" ? (
+            {select.inputs.players.length === 0 && select.tableid === "" ? (
               <Box
                 sx={{
                   m: 2,
@@ -269,13 +268,19 @@ export default function TableModal() {
                 dense={true} 
                 data-testid="list-players"
               >
-                {select.inputs.players.map((player) => (
-                  <ListItem 
-                    key={"player-" + player._id}
-                  >
-                    <PlayerCard player={player} />
-                  </ListItem>
-                ))}
+                {select.inputs.players.map((player) => {
+                  c += 1
+                  return (
+                    <ListItem 
+                      key={"player-" + player.userid}
+                    >
+                      <PlayerCard 
+                        player={player} 
+                        index={c}
+                      />
+                    </ListItem>
+                  )
+                })}
               </List>
             )}
           </Box>
@@ -283,9 +288,7 @@ export default function TableModal() {
 
         <DialogActions>
           <Button
-            onClick={() => {
-              appStore.dispatch({ type: "tableModalSlice/close" });
-            }}
+            onClick={changes.close}
             data-testid="modal-table-button-cancel"
           >
             {t("generic.button.cancel")}
@@ -293,13 +296,7 @@ export default function TableModal() {
           <LoadingButton
             data-testid="modal-table-button-save"
             variant="contained"
-            onClick={() => {
-              if (select.id === "") {
-                changes.create()
-              } else {
-                changes.save()
-              }
-            }}
+            onClick={changes.save}
             disabled={select.disabled}
             loading={select.loading}
             color={

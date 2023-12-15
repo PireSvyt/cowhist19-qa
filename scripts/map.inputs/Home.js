@@ -25,11 +25,8 @@ export default function Home() {
     loaded: useSelector((state) => state.authSlice.loaded),
     signedin: useSelector((state) => state.authSlice.signedin),
     snackData: useSelector((state) => state.sliceSnack.snackData),
-    tocomeData: useSelector((state) => state.sliceToComeModal.tocomeData),
+    tocomeData: useSelector((state) => state.tocomeModalSlice.tocomeData),
   };
-
-  console.log("select.authLoaded", select.loaded)
-  console.log("select.signedin", select.signedin)
 
   return (
     <Box>

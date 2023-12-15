@@ -12,6 +12,6 @@ Object.keys(env).forEach(k => {
 // Automated generation of functions from data-testid
 
 // Buttons
-When("I click open localization button of appbar", async () => {
-	await languageSwitcher.clickOpenlocalization()
+When("I click open menu button of localization", async () => {
+	await languageSwitcher.clickOpenmenu()
 })

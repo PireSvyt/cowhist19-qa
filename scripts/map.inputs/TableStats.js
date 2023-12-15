@@ -17,12 +17,13 @@ export default function TableStats() {
   // i18n
   const { t } = useTranslation();
 
+  let c = -1
+
   // Selects
   const select = {
-    loadedDetails: useSelector((state) => state.sliceTableDetails.loaded),
-    loadedStats: useSelector((state) => state.sliceTableStats.loaded),
-    stats: useSelector((state) => state.sliceTableStats.stats),
-    players: useSelector((state) => state.sliceTableDetails.players),
+    tableState: useSelector((state) => state.tableSlice.state),
+    stats: useSelector((state) => state.tableSlice.stats),
+    players: useSelector((state) => state.tableSlice.players),
   };
 
   // Load
@@ -34,7 +35,7 @@ export default function TableStats() {
     <Box 
       data-testid="component-table analytics"
     >
-      {!(select.loadedDetails === true && select.loadedStats === true) ? (
+      {!(select.tableState.details === "available" && select.tableState.stats === "available") ? (
         <Box sx={{ left: "10%", right: "10%" }}>
           <LinearProgress />
         </Box>
@@ -78,16 +79,20 @@ export default function TableStats() {
           {select.stats.ranking.map((player) => {
             let rankingPlayer = { ...player };
             let pseudoPlayer = select.players.filter((tablePlayer) => {
-              return tablePlayer._id === player._id;
+              return tablePlayer.userid === player.userid;
             });
             if (pseudoPlayer.length > 0) {
               rankingPlayer.pseudo = pseudoPlayer[0].pseudo;
             } else {
               rankingPlayer.pseudo = "A PLAYER";
             }
+            c += 1
             return (
-              <ListItem key={"ranking-" + rankingPlayer._id}>
-                <RankingCard player={rankingPlayer} />
+              <ListItem key={"ranking-" + rankingPlayer.userid}>
+                <RankingCard 
+                  player={rankingPlayer} 
+                  index={c}
+                  />
               </ListItem>
             );
           })}

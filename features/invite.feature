@@ -32,7 +32,7 @@ Feature: Invite
         Then invite modal should be visible
         And login should be in error in invite modal
 
-    Scenario: I can't invite without without pseudo
+    Scenario: I can't invite without pseudo
         And I fill invite modal with "missing pseudo"
         When I click invite button of invite modal
         Then invite modal should be visible

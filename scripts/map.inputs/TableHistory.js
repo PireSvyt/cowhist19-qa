@@ -17,12 +17,13 @@ export default function TableHistory() {
   // i18n
   const { t } = useTranslation();
 
+  let c = -1
+
   // Selects
   const select = {
-    loadedDetails: useSelector((state) => state.sliceTableDetails.loaded),
-    loadedHistory: useSelector((state) => state.sliceTableHistory.loaded),
-    history: useSelector((state) => state.sliceTableHistory.games),
-    players: useSelector((state) => state.sliceTableDetails.players),
+    tableState: useSelector((state) => state.tableSlice.state),
+    history: useSelector((state) => state.tableSlice.games),
+    players: useSelector((state) => state.tableSlice.players),
   };
 
   // Load
@@ -32,7 +33,7 @@ export default function TableHistory() {
 
   return (
     <Box>
-      {!(select.loadedDetails === true && select.loadedHistory === true) ? (
+      {!(select.tableState.details === "available" && select.tableState.history === "available") ? (
         <Box sx={{ left: "10%", right: "10%" }}>
           <LinearProgress />
         </Box>
@@ -73,24 +74,14 @@ export default function TableHistory() {
           data-testid="component-table history-list-game"
         >
           {select.history.map((game) => {
-            let gameCard = { ...game };
-            gameCard.attackPlayers = [];
-            gameCard.defensePlayers = [];
-            Object.values(game.players).forEach((gamePlayer) => {
-              let pseudoPlayer = select.players.filter((tablePlayer) => {
-                return tablePlayer._id === gamePlayer._id;
-              });
-              let readyGamePlayer = { ...gamePlayer };
-              if (pseudoPlayer.length > 0) {
-                readyGamePlayer.pseudo = pseudoPlayer[0].pseudo;
-              } else {
-                readyGamePlayer.pseudo = "a removed user";
-              }
-              gameCard[gamePlayer.role + "Players"].push(readyGamePlayer);
-            });
+            c += 1
             return (
-              <ListItem key={"game-" + game._id}>
-                <HistoryCard game={gameCard} />
+              <ListItem key={"game-" + game.gameid}>
+                <HistoryCard 
+                  game={game} 
+                  players={select.players} 
+                  index={c} 
+                />
               </ListItem>
             );
           })}

@@ -19,35 +19,6 @@ Then("game modal should be hidden", async () => {
 	await gameModal.assertModalIsHidden()
 })
 
-// Inputs
-When("I fill game modal with {string}", async function (scenario) {
-	await gameModal.fillIn(scenari["game"][scenario]())
-})
-Then("contract should be in error in game modal", async () => {
-	await gameModal.assertInputContractIsError()
-})
-Then("contract should not be in error in game modal", async () => {
-	await gameModal.assertInputContractIsNotError()
-})
-Then("attack should be in error in game modal", async () => {
-	await gameModal.assertInputAttackIsError()
-})
-Then("attack should not be in error in game modal", async () => {
-	await gameModal.assertInputAttackIsNotError()
-})
-Then("defense should be in error in game modal", async () => {
-	await gameModal.assertInputDefenseIsError()
-})
-Then("defense should not be in error in game modal", async () => {
-	await gameModal.assertInputDefenseIsNotError()
-})
-Then("outcome should be in error in game modal", async () => {
-	await gameModal.assertInputOutcomeIsError()
-})
-Then("outcome should not be in error in game modal", async () => {
-	await gameModal.assertInputOutcomeIsNotError()
-})
-
 // Buttons
 When("I click cancel button of game modal", async () => {
 	await gameModal.clickCancel()

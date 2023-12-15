@@ -8,8 +8,8 @@ setDefaultTimeout(3 * 1000)
 class LanguageSwitcher {
 
 	// Buttons
-	async clickOpenlocalization() {
-		await global.page.getByTestId("component-appbar-button-open localization").click()
+	async clickOpenmenu() {
+		await global.page.getByTestId("component-localization-button-open menu").click()
 	}
 }
 

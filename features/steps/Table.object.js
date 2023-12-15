@@ -64,6 +64,12 @@ class Table {
 	async clickTohome() {
 		await global.page.getByTestId("page-table-button-to home").click()
 	}
+	async clickToanalyticstab() {
+		await global.page.getByTestId("page-table-button-to analytics tab").click()
+	}
+	async clickTohistorytab() {
+		await global.page.getByTestId("page-table-button-to history tab").click()
+	}
 	async clickNewgame() {
 		await global.page.getByTestId("page-table-button-new game").click()
 	}

@@ -92,7 +92,7 @@ let scenari = {
     "game": {
         "valid game inputs": () => { 
             return {
-                Contract: "",
+                Contract: "Coop. 10 folds",
                 Attack: "",
                 Defense: "",
                 Outcome: "1",

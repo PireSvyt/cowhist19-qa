@@ -14,7 +14,8 @@
     "map": "node scripts/map.components.js",
     "cucumber": "cucumber-js --require cucumber.js",
     "cucumber-report": "cucumber-js --require cucumber.js --publish",
-    "prettify": "npx prettier . --write"
+    "prettify": "npx prettier . --write",
+    "dummy": "node MicrostructureDisplay.js"
   },
   "keywords": [],
   "author": "",

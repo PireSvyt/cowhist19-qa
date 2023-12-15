@@ -42,8 +42,8 @@ export default function Appbar(props) {
   // Selects
   const select = {
     signedin: useSelector((state) => state.authSlice.signedin),
-    tableDenied: useSelector((state) => state.sliceTableDetails.denied),
-    priviledges: useSelector((state) => state.sliceUserDetails.priviledges),
+    tableDenied: useSelector((state) => state.tableSlice.denied),
+    priviledges: useSelector((state) => state.userSlice.priviledges),
     //feedbackOpen: useSelector((state) => state.sliceFeedbackModal.open),
     snackOpen: useSelector((state) => state.sliceSnack.open),
     snackData: useSelector((state) => state.sliceSnack.snackData),
@@ -289,8 +289,7 @@ export default function Appbar(props) {
                         return (
                           <MenuItem
                             hidden={!(item.signed && select.signedin)}
-                            data-testid={"list-app bar menu-listitem-"+item.item}
-                            name={item.item}
+                            data-testid={"list-app bar menu-listitem"}
                             key={random_id()}
                             onClick={item.onclick}
                           >
@@ -302,8 +301,7 @@ export default function Appbar(props) {
                           return (
                             <MenuItem
                               hidden={!(item.signed && select.signedin)}
-                              data-testid="component-app bar-listitem-menu item"
-                              name={item.item}
+                              data-testid={"list-app bar menu-listitem"}
                               key={random_id()}
                               onClick={item.onclick}
                             >
