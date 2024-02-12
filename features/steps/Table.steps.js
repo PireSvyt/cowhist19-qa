@@ -1,70 +1,65 @@
-const { Given, When, Then } = require("@cucumber/cucumber")
-const env = require("../../.env.json")
-const { Table } = require("./Table.object.js")
-const { scenari } = require("../scenari.js")
-const { random_id } = require("../../utils/toolkit.js")
+const { Given, When, Then } = require('@cucumber/cucumber')
+const { Table } = require('./objects/Table.object.js')
+const { scenari } = require('../scenari.js')
 
 const table = new Table()
-Object.keys(env).forEach(k => {
-	table[k] = env[k]
-})
 
 // Automated generation of functions from data-testid
 
 // Page
-Given("I open table page", async () => {
-	await table.navigateToPage()
-	await table.assertPageIsVisible()
+Given('I open table page', async () => {
+    await table.navigateToPage()
+    await table.assertPageIsVisible()
 })
-Then("table page should be visible", async () => {
-	await table.assertPageIsVisible()
+Then('table page should be visible', async () => {
+    await table.assertPageIsVisible()
 })
-Then("table page should be hidden", async () => {
-	await table.assertPageIsHidden()
+Then('table page should be hidden', async () => {
+    await table.assertPageIsHidden()
 })
 
 // Box denied access visibility
-Then("denied access should be visible", async () => {
-	await table.assertDeniedaccessIsVisible()
+Then('denied access should be visible', async () => {
+    await table.assertDeniedAccessIsVisible()
 })
-Then("denied access should be hidden", async () => {
-	await table.assertDeniedaccessIsHidden()
+Then('denied access should be hidden', async () => {
+    await table.assertDeniedAccessIsHidden()
 })
 
 // Box granted access visibility
-Then("granted access should be visible", async () => {
-	await table.assertGrantedaccessIsVisible()
+Then('granted access should be visible', async () => {
+    await table.assertGrantedAccessIsVisible()
 })
-Then("granted access should be hidden", async () => {
-	await table.assertGrantedaccessIsHidden()
+Then('granted access should be hidden', async () => {
+    await table.assertGrantedAccessIsHidden()
 })
 
 // Box analytics tab visibility
-Then("analytics tab should be visible", async () => {
-	await table.assertAnalyticstabIsVisible()
+Then('analytics tab should be visible', async () => {
+    await table.assertAnalyticsTabIsVisible()
 })
-Then("analytics tab should be hidden", async () => {
-	await table.assertAnalyticstabIsHidden()
+Then('analytics tab should be hidden', async () => {
+    await table.assertAnalyticsTabIsHidden()
 })
 
 // Box history tab visibility
-Then("history tab should be visible", async () => {
-	await table.assertHistorytabIsVisible()
+Then('history tab should be visible', async () => {
+    await table.assertHistoryTabIsVisible()
 })
-Then("history tab should be hidden", async () => {
-	await table.assertHistorytabIsHidden()
+Then('history tab should be hidden', async () => {
+    await table.assertHistoryTabIsHidden()
 })
 
 // Buttons
-When("I click to home button of table page", async () => {
-	await table.clickTohome()
+When('I click to home button from table', async () => {
+    await table.clickToHome()
 })
-When("I click to analytics tab button of table page", async () => {
-	await table.clickToanalyticstab()
+When('I click to analytics tab button from granted access', async () => {
+    await table.clickToAnalyticsTab()
 })
-When("I click to history tab button of table page", async () => {
-	await table.clickTohistorytab()
+When('I click to history tab button from granted access', async () => {
+    await table.clickToHistoryTab()
 })
-When("I click new game button of table page", async () => {
-	await table.clickNewgame()
+When('I click new game button from table', async () => {
+    await table.clickNewGame()
 })

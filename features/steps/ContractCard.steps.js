@@ -1,41 +1,71 @@
-const { Given, When, Then } = require("@cucumber/cucumber")
-const env = require("../../.env.json")
-const { ContractCard } = require("./ContractCard.object.js")
-const { scenari } = require("../scenari.js")
-const { random_id } = require("../../utils/toolkit.js")
+const { Given, When, Then } = require('@cucumber/cucumber')
+const { ContractCard } = require('./objects/ContractCard.object.js')
+const { scenari } = require('../scenari.js')
 
 const contractCard = new ContractCard()
-Object.keys(env).forEach(k => {
-	contractCard[k] = env[k]
-})
 
 // Automated generation of functions from data-testid
 
-// Inputs
-When("I fill game modal with {string}", async function (scenario) {
-	await contractCard.fillIn(scenari["game"][scenario]())
+// Selects
+When('I fill contracts dropdowns with {string}', async function (scenario) {
+    await contractCard.selectFill(scenari['contracts'][scenario]().dropdowns)
 })
-Then("contract should be in error in game modal", async () => {
-	await contractCard.assertInputContractIsError()
+When('I click contract from dropdown list from contracts', async function () {
+    await contractCard.selectContractClick()
 })
-Then("contract should not be in error in game modal", async () => {
-	await contractCard.assertInputContractIsNotError()
+When(
+    'I click item {string} of contract dropdown list from contracts',
+    async function (index) {
+        await contractCard.selectContractClickItem(index)
+    }
+)
+Then('contract dropdown should be in error from contracts', async () => {
+    await contractCard.assertSelectContractIsError()
 })
-Then("attack should be in error in game modal", async () => {
-	await contractCard.assertInputAttackIsError()
+Then('contract dropdown should not be in error from contracts', async () => {
+    await contractCard.assertSelectContractIsNotError()
 })
-Then("attack should not be in error in game modal", async () => {
-	await contractCard.assertInputAttackIsNotError()
+When('I click attack from dropdown list from contracts', async function () {
+    await contractCard.selectAttackClick()
 })
-Then("defense should be in error in game modal", async () => {
-	await contractCard.assertInputDefenseIsError()
+When(
+    'I click item {string} of attack dropdown list from contracts',
+    async function (index) {
+        await contractCard.selectAttackClickItem(index)
+    }
+)
+Then('attack dropdown should be in error from contracts', async () => {
+    await contractCard.assertSelectAttackIsError()
 })
-Then("defense should not be in error in game modal", async () => {
-	await contractCard.assertInputDefenseIsNotError()
+Then('attack dropdown should not be in error from contracts', async () => {
+    await contractCard.assertSelectAttackIsNotError()
 })
-Then("outcome should be in error in game modal", async () => {
-	await contractCard.assertInputOutcomeIsError()
+When('I click defense from dropdown list from contracts', async function () {
+    await contractCard.selectDefenseClick()
 })
-Then("outcome should not be in error in game modal", async () => {
-	await contractCard.assertInputOutcomeIsNotError()
+When(
+    'I click item {string} of defense dropdown list from contracts',
+    async function (index) {
+        await contractCard.selectDefenseClickItem(index)
+    }
+)
+Then('defense dropdown should be in error from contracts', async () => {
+    await contractCard.assertSelectDefenseIsError()
+})
+Then('defense dropdown should not be in error from contracts', async () => {
+    await contractCard.assertSelectDefenseIsNotError()
+})
+
+// Sliders
+When('I fill contracts sliders with {string}', async function (scenario) {
+    await contractCard.sliderFill(scenari['contracts'][scenario]().sliders)
+})
+When('I click outcome from slider list from contracts', async function () {
+    await contractCard.sliderOutcomeClick()
+})
+Then('outcome slider should be in error from contracts', async () => {
+    await contractCard.assertSliderOutcomeIsError()
+})
+Then('outcome slider should not be in error from contracts', async () => {
+    await contractCard.assertSliderOutcomeIsNotError()
 })

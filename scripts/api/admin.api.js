@@ -1,22 +1,22 @@
-const axios = require('axios');
-const env = require("../../.env.json")
+const axios = require('axios')
+const env = require('../../.env.json')
 
-let apiURL = env.admin_database_url;
+let apiURL = env.admin_database_url
 
 async function apiAdminDatabaseCommand(action, token) {
     try {
         const res = await axios({
             method: 'post',
-            url: apiURL + "admin/v1/databasecommand",
+            url: apiURL + 'admin/v1/databasecommand',
             data: action,
             headers: {
-                Authorization: "Bearer " + token,
-            }
+                Authorization: 'Bearer ' + token,
+            },
         })
-        return res.data;
+        return res.data
     } catch (err) {
-        return err.response.data;
+        return err.response.data
     }
 }
 
-module.exports = { apiAdminDatabaseCommand };
+module.exports = { apiAdminDatabaseCommand }

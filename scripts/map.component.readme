@@ -1,0 +1,46 @@
+CONVENTIONS
+
+# page & modal
+
+
+# containers
+
+## box
+
+
+# list & listiem
+
+# list
+pattern "COMPONENT-list-LISTITEM"
+
+# listitem
+pattern "COMPONENT-listitem-LISTITEM"
+
+to leverage the index of the listitem
+--> user curly brackets
+
+
+
+# inputs
+
+## input
+to leverage the index of the listitem
+--> user curly brackets
+
+## select
+to leverage the index of the listitem
+--> user curly brackets
+
+## checkbox
+to leverage the index of the listitem
+--> user curly brackets
+
+## slider
+to leverage the index of the listitem
+--> user curly brackets
+
+
+# button
+
+to leverage the index of the listitem
+--> user curly brackets

@@ -1,104 +1,208 @@
-const { random_id } = require("../utils/toolkit.js")
-const env = require("../.env.json")
+const { random_id } = require('../utils/toolkit.js')
+const env = require('./env.json')
 
 let scenari = {
-    "sign up": {
-        "erroneous email": () => { 
-            return {
-                "Login": random_id() + '@emailcom',
-            }
-        },
-        "missmatching passwords": () => { 
-            return {
-                Pseudo: random_id(),
-                Login: random_id() + '@email.com',
-                Password: random_id(),
-                Passwordrepeat: random_id(),
-            }
-        },
-        "existing credentials": () => { 
-			let rPassword = random_id()
-            return {
-				Pseudo: random_id(),
-				Login: env.input_signin_active_login,
-				Password: rPassword,
-				Passwordrepeat: rPassword,
-            }
+    paths: {
+        root: 'http://localhost:3000/',
+        home: '',
+        help: '/help',
+        about: '/about',
+    },
+    timeout: (scope) => {
+        switch (scope) {
+            case 'home':
+                return 5
+            case 'help':
+                return 5
+            case 'table':
+                return 5
+            case 'reducers':
+                return 10
+            default:
+                return 5
         }
     },
-    "sign in": {
-        "activated account creadentials": () => { 
+    'sign up': {
+        'erroneous email': () => {
+            let rPassword = random_id()
             return {
-                Login: env.input_signin_active_login,
-                Password: env.input_signin_active_password
+                inputs: {
+                    Pseudo: random_id(),
+                    Login: random_id() + '@emailcom',
+                    Password: rPassword,
+                    Passwordrepeat: rPassword,
+                },
             }
         },
-        "erroneous email": () => { 
+        'missmatching passwords': () => {
             return {
-                Login: random_id() + '@emailcom'
+                inputs: {
+                    Pseudo: random_id(),
+                    Login: random_id() + '@email.com',
+                    Password: random_id(),
+                    Passwordrepeat: random_id(),
+                },
             }
         },
-        "random credentials": () => { 
+        'existing credentials': () => {
+            let rPassword = random_id()
             return {
-                Password: random_id(),
-                Login: random_id() + '@email.com'
-            }
-        },
-        "activated account creadentials but invalid password": () => { 
-            return {
-                Login: env.input_signin_active_login,
-                Password: random_id()
-            }
-        },
-        "inactive account creadentials": () => { 
-            return {
-                Login: env.input_signin_inactive_login,
-                Password: env.input_signin_inactive_password
-            }
-        },
-    },
-    "table": {
-        "valid inputs": () => { 
-            return {
-                Name: random_id(),
+                inputs: {
+                    Pseudo: random_id(),
+                    Login: env.input_signin_active_login,
+                    Password: rPassword,
+                    Passwordrepeat: rPassword,
+                },
             }
         },
     },
-    "invite": {
-        "erroneous email": () => { 
+    'sign in': {
+        'activated account creadentials': () => {
             return {
-                Login: random_id() + '@emailcom'
+                inputs: {
+                    Login: env.input_signin_active_login,
+                    Password: env.input_signin_active_password,
+                },
             }
         },
-        "missing pseudo": () => { 
+        'erroneous email': () => {
             return {
-                Login: random_id() + '@email.com'
-            }
-        },   
-        "missing acknowledgement": () => { 
-            return {
-                Pseudo: random_id(),
-                Login: random_id() + '@email.com'
+                inputs: {
+                    Login: random_id() + '@emailcom',
+                },
             }
         },
-        "valid inputs": () => { 
+        'random credentials': () => {
             return {
-                Pseudo: random_id(),
-                Login: random_id() + '@email.com',
-                Acknowledgement: 'true'
+                inputs: {
+                    Password: random_id(),
+                    Login: random_id() + '@email.com',
+                },
+            }
+        },
+        'activated account creadentials but invalid password': () => {
+            return {
+                inputs: {
+                    Login: env.input_signin_active_login,
+                    Password: random_id(),
+                },
+            }
+        },
+        'inactive account creadentials': () => {
+            return {
+                inputs: {
+                    Login: env.input_signin_inactive_login,
+                    Password: env.input_signin_inactive_password,
+                },
             }
         },
     },
-    "game": {
-        "valid game inputs": () => { 
+    table: {
+        'valid inputs': () => {
             return {
-                Contract: "Coop. 10 folds",
-                Attack: "",
-                Defense: "",
-                Outcome: "1",
+                inputs: {
+                    Name: random_id(),
+                },
             }
         },
-    }
+        'an empty name': () => {
+            return {
+                inputs: {
+                    Name: '',
+                },
+            }
+        },
+        'an existing name': () => {
+            return {
+                inputs: {
+                    Name: 'aaannn existing name',
+                },
+            }
+        },
+        'a brand new name': () => {
+            return {
+                inputs: {
+                    Name: 'A brand new table',
+                },
+            }
+        },
+        'intention to test game capabilities': () => {
+            return {
+                inputs: {
+                    Name: 'Game capabilities',
+                },
+            }
+        },
+    },
+    invite: {
+        'erroneous email': () => {
+            return {
+                inputs: {
+                    Login: random_id() + '@emailcom',
+                },
+                checkboxes: {
+                    Acknowledgement: false,
+                },
+            }
+        },
+        'missing pseudo': () => {
+            return {
+                inputs: {
+                    Login: random_id() + '@email.com',
+                },
+                checkboxes: {
+                    Acknowledgement: false,
+                },
+            }
+        },
+        'missing acknowledgement': () => {
+            return {
+                inputs: {
+                    Pseudo: random_id(),
+                    Login: random_id() + '@email.com',
+                },
+                checkboxes: {
+                    Acknowledgement: false,
+                },
+            }
+        },
+        'valid inputs': () => {
+            return {
+                inputs: {
+                    Pseudo: random_id(),
+                    Login: random_id() + '@email.com',
+                },
+                checkboxes: {
+                    Acknowledgement: true,
+                },
+            }
+        },
+        'Games.Player 1': () => {
+            return {
+                inputs: {
+                    Pseudo: 'Games.Player 1',
+                    Login: 'player1@email.com',
+                },
+                checkboxes: {
+                    Acknowledgement: true,
+                },
+            }
+        },
+    },
+    game: {
+        'valid game inputs': () => {
+            return {
+                dropdowns: {
+                    Contract: 'Coop. 10 folds',
+                    Attack: '',
+                    Defense: '',
+                },
+                sliders: {
+                    Outcome: '1',
+                },
+            }
+        },
+    },
 }
 
-module.exports = { scenari };
+module.exports = { scenari }

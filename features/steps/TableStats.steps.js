@@ -1,28 +1,77 @@
-const { Given, When, Then } = require("@cucumber/cucumber")
-const env = require("../../.env.json")
-const { TableStats } = require("./TableStats.object.js")
-const { scenari } = require("../scenari.js")
-const { random_id } = require("../../utils/toolkit.js")
+const { Given, When, Then } = require('@cucumber/cucumber')
+const { TableStats } = require('./objects/TableStats.object.js')
+const { scenari } = require('../scenari.js')
 
 const tableStats = new TableStats()
-Object.keys(env).forEach(k => {
-	tableStats[k] = env[k]
-})
 
 // Automated generation of functions from data-testid
 
-// Componenttable analytics
-Then("table analytics should be visible", async () => {
-	await tableStats.assertTableanalyticsIsVisible()
+// Componenttable stats
+Then('table stats should be visible', async () => {
+    await tableStats.assertTableStatsIsVisible()
 })
-Then("table analytics should be hidden", async () => {
-	await tableStats.assertTableanalyticsIsHidden()
+Then('table stats should be hidden', async () => {
+    await tableStats.assertTableStatsIsHidden()
 })
 
-// Box no game note visibility
-Then("no game note should be visible", async () => {
-	await tableStats.assertNogamenoteIsVisible()
+// Box no ranking visibility
+Then('no ranking should be visible', async () => {
+    await tableStats.assertNoRankingIsVisible()
 })
-Then("no game note should be hidden", async () => {
-	await tableStats.assertNogamenoteIsHidden()
+Then('no ranking should be hidden', async () => {
+    await tableStats.assertNoRankingIsHidden()
 })
+
+// Buttons
+When('I click see ranking button from table stats', async () => {
+    await tableStats.clickSeeRanking()
+})
+When('I click see graph button from table stats', async () => {
+    await tableStats.clickSeeGraph()
+})
+
+// Selects
+When('I fill table stats dropdowns with {string}', async function (scenario) {
+    await tableStats.selectFill(scenari['table stats'][scenario]().dropdowns)
+})
+When(
+    'I click graph dimension from dropdown list from table stats',
+    async function () {
+        await tableStats.selectGraphDimensionClick()
+    }
+)
+When(
+    'I click item {string} of graph dimension dropdown list from table stats',
+    async function (index) {
+        await tableStats.selectGraphDimensionClickItem(index)
+    }
+)
+Then(
+    'graph dimension dropdown should be in error from table stats',
+    async () => {
+        await tableStats.assertSelectGraphDimensionIsError()
+    }
+)
+Then(
+    'graph dimension dropdown should not be in error from table stats',
+    async () => {
+        await tableStats.assertSelectGraphDimensionIsNotError()
+    }
+)
+
+// List ranks
+When('I click item {int} of ranks list from table stats', async (item) => {
+    await tableStats.clickRanksItem(item)
+})
+Then('ranks list from table stats should be empty', async () => {
+    await tableStats.assertRanksIsEmpty()
+})
+Then('ranks list from table stats should not be empty', async () => {
+    await tableStats.assertRanksIsNotEmpty()
+})
+Then(
+    'ranks list from table stats should contain {string} by {string}',
+    async (item, by) => {
+        await tableStats.assertRanksContainsItem(item, by)
+    }
+)

@@ -1,53 +1,47 @@
-const { Given, When, Then } = require("@cucumber/cucumber")
-const env = require("../../.env.json")
-const { Appbar } = require("./Appbar.object.js")
-const { scenari } = require("../scenari.js")
-const { random_id } = require("../../utils/toolkit.js")
+const { Given, When, Then } = require('@cucumber/cucumber')
+const { Appbar } = require('./objects/Appbar.object.js')
+const { scenari } = require('../scenari.js')
 
 const appbar = new Appbar()
-Object.keys(env).forEach(k => {
-	appbar[k] = env[k]
-})
 
 // Automated generation of functions from data-testid
 
 // Componentapp bar
-Then("app bar should be visible", async () => {
-	await appbar.assertAppbarIsVisible()
+Then('app bar should be visible', async () => {
+    await appbar.assertAppBarIsVisible()
 })
-Then("app bar should be hidden", async () => {
-	await appbar.assertAppbarIsHidden()
+Then('app bar should be hidden', async () => {
+    await appbar.assertAppBarIsHidden()
 })
 
-// List app bar menu
-When("I click {string} from app bar menu", async (item) => {
-	await appbar.clickAppbarmenuItem(item, "text")
-})
-When("I click {string} by {string} from app bar menu", async (item, by) => {
-	await appbar.clickAppbarmenuItem(item, by)
-})
-Then("app bar menu should be empty", async () => {
-	await appbar.assertAppbarmenuIsEmpty()
-})
-Then("app bar menu should not be empty", async () => {
-	await appbar.assertAppbarmenuIsNotEmpty()
-})
-Then("app bar menu should contain {string} by {string}", async (item, by) => {
-	await appbar.assertAppbarmenuContainsItem(item, by)
+Then('title of app bar should be {string}', async (value) => {
+    await appbar.assertTextTitleIs(value)
 })
 
 // Buttons
-When("I click edit table button of app bar", async () => {
-	await appbar.clickEdittable()
+When('I click edit table button from app bar', async () => {
+    await appbar.clickEditTable()
 })
-When("I click open menu button of app bar", async () => {
-	await appbar.clickOpenmenu()
+When('I click open menu button from app bar', async () => {
+    await appbar.clickOpenMenu()
 })
-When("I click close menu button of app bar", async () => {
-	await appbar.clickClosemenu()
+When('I click close menu button from app bar', async () => {
+    await appbar.clickCloseMenu()
 })
 
-// Texts
-Then("title of app bar should be {string}", async () => {
-	await appbar.assertTextTitleIs(value)
+// List app bar menu
+When('I click item {int} of app bar menu list from app bar', async (item) => {
+    await appbar.clickAppBarMenuItem(item)
 })
+Then('app bar menu list from app bar should be empty', async () => {
+    await appbar.assertAppBarMenuIsEmpty()
+})
+Then('app bar menu list from app bar should not be empty', async () => {
+    await appbar.assertAppBarMenuIsNotEmpty()
+})
+Then(
+    'app bar menu list from app bar should contain {string} by {string}',
+    async (item, by) => {
+        await appbar.assertAppBarMenuContainsItem(item, by)
+    }
+)
